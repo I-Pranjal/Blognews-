@@ -2,6 +2,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import { OAuth2Client } from 'google-auth-library';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Connect to MongoDB
 const mongoURI = 'mongodb://127.0.0.1:27017/blogs';
@@ -91,6 +94,46 @@ app.get('/api/blogs', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Failed to get blogs' });
     }
+});
+
+
+// Route to sign in with google ---------------------------
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || 'none'; // Replace with your Client ID
+
+const client = new OAuth2Client(CLIENT_ID);
+app.post('/api/auth/google', async (req, res) => {
+  const { token } = req.body;
+  console.log(token); 
+
+
+  if (!token) {
+    return res.status(400).json({ success: false, message: 'Token is missing' });
+  }
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
+    });
+
+    const payload = ticket.getPayload();
+    const userid = payload['sub'];
+
+    const user = {
+      id: userid,
+      name: payload['name'],
+      email: payload['email'],
+      picture: payload['picture'],
+    };
+
+    // You can now store or use the user data (e.g., in a database)
+    // Example:  console.log("User data:", user);
+
+    return res.json({ success: true, user });
+  } catch (error) {
+    console.error('Error verifying Google token:', error);
+    return res.status(400).json({ success: false, message: 'Invalid token' });
+  }
 });
 
 // Start the server

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Drawer,
   Button,
@@ -15,16 +15,24 @@ import { Link } from "react-router-dom";
 import { MyContext } from "../myprovider"
 
 const Profile_drawer = () => {
-  const {person , reset} = useContext(MyContext); 
+  const {person , reset, change} = useContext(MyContext); 
   const [open, setOpen] = React.useState(false);
   const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
+
+  useEffect(() => {
+    const userInfo = localStorage.getItem('user');
+    if (userInfo) {
+      const person = JSON.parse(userInfo);
+      change({name: person.name, email: person.email, imageURL : person.picture});
+    }
+  }, []);
  
   return (
     <React.Fragment>
       <Badge placement="top-end" overlap="circular" color="green" withBorder>
         <Avatar
-          src="/images/pranjal_imge.jpg"
+          src={person.imageURL}
           alt="avatar"
           onClick={openDrawer}
         />
