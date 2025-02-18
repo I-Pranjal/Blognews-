@@ -9,6 +9,7 @@ import { useContext, useState } from "react";
 import { MyContext } from "../myprovider";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import GoogleSignInButton from "./GoogleSignInButton.jsx";
 
    
   export function Signin({toggleForm }) {
@@ -81,8 +82,11 @@ import { useNavigate } from "react-router-dom";
             />
           </div>
           <Button className="mt-6" fullWidth type="submit">
-            sign in
+            Sign in
           </Button>
+          <span className="h-px w-full block mt-4 ">
+          <GoogleSignInButton/>
+          </span>
 
           <Typography color="gray" className="mt-4 text-center font-normal">
             Already have an account?{" "}
