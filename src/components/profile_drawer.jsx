@@ -18,7 +18,9 @@ const Profile_drawer = () => {
   const {person , reset, change} = useContext(MyContext); 
   const [open, setOpen] = React.useState(false);
   const openDrawer = () => setOpen(true);
-  const closeDrawer = () => setOpen(false);
+  const closeDrawer = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     const userInfo = localStorage.getItem('user');
@@ -32,7 +34,7 @@ const Profile_drawer = () => {
     <React.Fragment>
       <Badge placement="top-end" overlap="circular" color="green" withBorder>
         <Avatar
-          src={person.imageURL}
+          src={person?.imageURL || '../images/original_pranjal.jpg'}
           alt="avatar"
           onClick={openDrawer}
         />
@@ -105,7 +107,7 @@ const Profile_drawer = () => {
           Sign in / Create new Account
         </Button>
         <Link to="">
-        <Button className="mt-3 ml-5" size="sm" onClick={{closeDrawer , reset}}>
+        <Button className="mt-3 ml-5" size="sm" onClick={() => {closeDrawer(); reset(); localStorage.removeItem('user');}}>
           Sign out
         </Button>
         </Link>

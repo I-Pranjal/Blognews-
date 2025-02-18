@@ -7,9 +7,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Connect to MongoDB
-const mongoURI = 'mongodb://127.0.0.1:27017/blogs';
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/blogs';
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('MongoDB connected'))
+    .then(() => console.log('MongoDB connected', mongoURI))
     .catch(err => console.error('MongoDB connection error:', err));
 
 const app = express();
@@ -30,7 +30,8 @@ const Blog = mongoose.model('Blog', blogSchema);
 const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    profileImage: { type: String, required: false }
 });
 const User = mongoose.model('User', userSchema);
 
@@ -126,8 +127,11 @@ app.post('/api/auth/google', async (req, res) => {
       picture: payload['picture'],
     };
 
-    // You can now store or use the user data (e.g., in a database)
-    // Example:  console.log("User data:", user);
+    const existingUser = await User.findOne({ email: user.email });
+    if (!existingUser) {
+      const newUser = new User({ name: user.name, email: user.email, password: 'jackofalltraits', profileImage: user.picture });
+      await newUser.save();
+    }
 
     return res.json({ success: true, user });
   } catch (error) {
