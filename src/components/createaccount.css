@@ -1,0 +1,29 @@
+.signup-mode .card {
+  transform: translateX(0);
+  transition: transform 0.5s ease;
+}
+
+.signin-mode .card {
+  transform: translateX(100%);
+  transition: transform 0.5s ease;
+}
+
+.signup-mode .signup-form {
+  transform: translateX(0);
+  transition: transform 0.5s ease;
+}
+
+.signin-mode .signup-form {
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.signup-mode .signin-form {
+  transform: translateX(100%);
+  transition: transform 0.5s ease;
+}
+
+.signin-mode .signin-form {
+  transform: translateX(0);
+  transition: transform 0.5s ease;
+}
