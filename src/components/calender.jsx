@@ -32,9 +32,9 @@ const Calendar = () => {
         <img src="/images/next.png" width={30}/>
         </button>
       </div>
-      <div className="grid grid-cols-7 gap-2 text-center font-semibold">
+      <div className="grid grid-cols-7 text-center font-semibold">
         {daysOfWeek.map((day) => (
-          <div key={day} className="text-gray-600">
+          <div key={day} className="text-gray-600 w-10">
             {day}
           </div>
         ))}
@@ -43,7 +43,7 @@ const Calendar = () => {
         {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => (
           <div
             key={day}
-            className="flex items-center justify-center p-2 border rounded-full bg-blue-50 hover:bg-blue-100 cursor-pointer"
+            className="flex items-center h-10 w-10 justify-center p-2 border rounded-full bg-blue-50 hover:bg-blue-100 cursor-pointer"
           >
             {day}
           </div>

@@ -102,6 +102,17 @@ app.get('/api/blogs', async (req, res) => {
     }
 });
 
+// Route to get blogs of a particular user
+app.get('/api/myblogs', async (req, res) => {
+    const { email } = req.query;
+    try {
+        const blogs = await Blog.find({ mail: email });
+        res.json(blogs);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to get blogs' });
+    }
+});
+
 // Update likes -------------------------------------
 app.post("/blogs/:title/like", async (req, res) => {
     try {
