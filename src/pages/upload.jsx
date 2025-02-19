@@ -28,12 +28,13 @@ const BlogForm = () => {
           setImageURL(url);
 
           try {
+            const likes = 0, views = 0 ;
             const response = await fetch('http://localhost:5000/api/blogs', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify({ mail, heading, content, imageURL: url }),
+              body: JSON.stringify({ mail, heading, content, imageURL: url, authorName : person.name, authorImage : person.imageURL, likes, views }),
             });
 
             const data = await response.json();

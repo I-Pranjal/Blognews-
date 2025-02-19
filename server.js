@@ -22,7 +22,11 @@ const blogSchema = new mongoose.Schema({
     heading: { type: String, required: true },
     content: { type: String, required: true },
     imageURL: { type: String, required: true },
-    date: { type: Date, default: Date.now }
+    date: { type: Date, default: Date.now },
+    authorName: { type: String, required: true },
+    authorImage: { type: String, required: true },
+    likes: { type: Number, required: true },
+    views: { type: Number, required: true}
 });
 const Blog = mongoose.model('Blog', blogSchema);
 
@@ -44,9 +48,9 @@ const Category = mongoose.model('Category', categorySchema);
 
 // Route to add a new blog
 app.post('/api/blogs', async (req, res) => {
-    const { mail, heading, content, imageURL } = req.body;
+    const { mail, heading, content, imageURL, authorName, authorImage, likes, views } = req.body;
     try {
-        const newBlog = new Blog({ mail, heading, content, imageURL });
+        const newBlog = new Blog({ mail, heading, content, imageURL, authorName, authorImage, likes, views });
         await newBlog.save();
         res.json(newBlog);
     } catch (error) {
@@ -87,15 +91,48 @@ app.post('/api/signin', async (req, res) => {
 
 // Route to get blogs filtered by email
 app.get('/api/blogs', async (req, res) => {
-    const { email } = req.query;
+    // const { email } = req.query;
     try {
-        const query = email ? { mail: email } : {};
-        const blogs = await Blog.find(query);
+        // const query = email ? { mail: email } : {};
+        // const blogs = await Blog.find(query);
+        const blogs = await Blog.find({});
         res.json(blogs);
     } catch (error) {
         res.status(500).json({ error: 'Failed to get blogs' });
     }
 });
+
+// Update likes -------------------------------------
+app.post("/blogs/:title/like", async (req, res) => {
+    try {
+      const { liked } = req.body;
+    const blog = await Blog.findOne({ heading: req.params.title });
+      if (!blog) return res.status(404).json({ message: "Blog not found" });
+  
+      blog.likes = liked ? blog.likes + 1 : blog.likes - 1;
+      await blog.save();
+  
+      res.status(200).json({ likes: blog.likes });
+    } catch (error) {
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+
+// Update views -------------------------------------
+app.post("/blogs/:title/view", async (req, res) => {
+    try {
+      const { view } = req.body;
+    const blog = await Blog.findOne({ heading: req.params.title });
+      if (!blog) return res.status(404).json({ message: "Blog not found" });
+  
+      blog.views = view;
+      await blog.save();
+  
+      res.status(200).json({ views: blog.views });
+    } catch (error) {
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
 
 
 // Route to sign in with google ---------------------------

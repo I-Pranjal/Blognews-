@@ -9,9 +9,9 @@ import {
     Tooltip,
   } from "@material-tailwind/react";
    
-  export function BlogCard({imageURL, heading, content, date} ) {
+  export function BlogCard({imageURL, heading, content, date, onReadMore} ) {
     return (
-      <Card className="max-w-[24rem] min-h-[10rem] overflow-hidden">
+      <Card className="max-w-[24rem] h-[35rem] overflow-hidden">
         <CardHeader
           floated={false}
           shadow={true}
@@ -28,13 +28,15 @@ import {
           <Typography variant="h4" color="blue-gray">
             {heading}
           </Typography>
-          <Typography variant="lead" color="gray" className="mt-3 font-normal">
+          <Typography variant="lead" color="gray" className="mt-3 font-normal truncate"> 
             {content}
           </Typography>
         </CardBody>
         <CardFooter className="flex items-center justify-between">
         <div className="flex items-center -space-x-3">
-            <Button>Read More</Button>
+            <Button
+            onClick={onReadMore}
+            >Read More</Button>
         </div>
         <Typography className="font-normal">
           {date}
