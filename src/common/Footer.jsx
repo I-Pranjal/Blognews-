@@ -2,6 +2,11 @@ import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 
 
 const Footer = () => {
+
+  const sendMail = () => {
+    console.log("Mail sent");
+  }
+
   return (
     <footer className="bg-gray-900 text-white py-12 px-6 md:px-16">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:justify-between gap-10">
@@ -27,7 +32,9 @@ const Footer = () => {
               placeholder="Enter your email"
               className="w-full px-4 py-2 rounded-md text-gray-900 focus:ring-2 focus:ring-blue-500 outline-none"
             />
-            <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md text-white transition duration-300">
+            <button 
+            onClick={sendMail()}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md text-white transition duration-300">
               Subscribe
             </button>
           </div>

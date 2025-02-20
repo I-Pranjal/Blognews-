@@ -42,29 +42,40 @@ const Likes = () =>  {
             </a>
           </div>
           <div class="divide-y divide-gray-200">
-            {notifications.map((notification) => (
-              <div class="flex items-center justify-between pb-3 pt-3 last:pb-0">
-                <div class="flex items-center gap-x-3">
-                  <img
-                    src={notification.lbImgURL}
-                    alt="Tania Andrew"
-                    class="relative inline-block h-9 w-9 rounded-full object-cover object-center"
-                  />
-                  <div>
-                    <h6
-                      class="block font-sans text-base font-semibold leading-relaxed tracking-normal text-blue-gray-900 antialiased"
-                    >
-                      {notification.lbName} liked your article
-                    </h6>
-                    <p
-                      class="block font-sans text-sm font-light leading-normal text-gray-700 antialiased"
-                    >
-                      {Math.floor((new Date() - new Date(notification.date)) / 60000)} minutes ago
-                    </p>
+            {notifications.map((notification) => {
+              const timeDiff = new Date() - new Date(notification.date);
+              let timeAgo;
+              if (timeDiff < 3600000) {
+                timeAgo = `${Math.floor(timeDiff / 60000)} minutes ago`;
+              } else if (timeDiff < 86400000) {
+                timeAgo = `${Math.floor(timeDiff / 3600000)} hours ago`;
+              } else {
+                timeAgo = `${Math.floor(timeDiff / 86400000)} days ago`;
+              }
+              return (
+                <div class="flex items-center justify-between pb-3 pt-3 last:pb-0" key={notification.id}>
+                  <div class="flex items-center gap-x-3">
+                    <img
+                      src={notification.lbImgURL}
+                      alt="Tania Andrew"
+                      class="relative inline-block h-9 w-9 rounded-full object-cover object-center"
+                    />
+                    <div>
+                      <h6
+                        class="block font-sans text-base font-semibold leading-relaxed tracking-normal text-blue-gray-900 antialiased"
+                      >
+                        {notification.lbName} liked your article
+                      </h6>
+                      <p
+                        class="block font-sans text-sm font-light leading-normal text-gray-700 antialiased"
+                      >
+                        {timeAgo}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
