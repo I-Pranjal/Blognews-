@@ -16,13 +16,13 @@ const Mainheader = () => {
           className="text-white focus:outline-none md:hidden"
           onClick={toggleMenu}
         >
-          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {isOpen ? <X className="w-6 h-6 text-white" /> : <Menu className="w-6 h-6" />}
         </button>
 
         {/* Navbar Links */}
         <ul
-          className={`md:flex md:items-center md:justify-start absolute md:static z-10 bg-black w-full left-0 md:w-auto transition-all duration-300 ease-in ${
-            isOpen ? "top-16 opacity-100" : "top-[-490px] opacity-0"
+          className={`md:flex md:items-center md:justify-start absolute md:static bg-black w-full left-0 md:w-auto transition-all duration-300 ease-in ${
+            isOpen ? "top-16 opacity-100 z-10" : "top-[-490px] opacity-0"
           } md:opacity-100`}
         >
           {navbar.map((nav, key) => (
