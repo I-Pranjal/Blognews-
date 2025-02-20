@@ -46,6 +46,41 @@ const categorySchema = new mongoose.Schema({
 });
 const Category = mongoose.model('Category', categorySchema);
 
+// Define notification schema and model, it contains image of person who liked the blog, name of the person who liked the blog, date and time of the like and email address of person whose article was liked
+const notificationSchema = new mongoose.Schema({
+    lbImgURL : { type: String, required: true },    // URL of the image of the person who liked the blog
+    lbName: { type: String, required: true },      // Name of the person who liked the blog
+    date: { type: Date, default: Date.now },
+    mail: { type: String, required: true }  // Email address of the person whose article was liked
+});
+const Notification = mongoose.model('Notification', notificationSchema);
+
+// Route to get all notifications by email
+app.get('/api/notifications', async (req, res) => {
+    const { email } = req.query;
+    try {
+        const notifications = await Notification.find({ mail: email });
+        console.log(notifications) ; 
+        // Return first five notifications only
+        res.json(notifications.slice(0, 5));
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to get notifications' });
+    }
+});
+
+// Route to add a new notification
+app.post('/api/notifications', async (req, res) => {
+    const { lbImgURL, lbName, mail } = req.body;
+    try {
+        const newNotification = new Notification({ lbImgURL, lbName, mail });
+        await newNotification.save();
+        res.json({success: true});
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to add notification' });
+    }
+});
+
+
 // Route to add a new blog
 app.post('/api/blogs', async (req, res) => {
     const { mail, heading, content, imageURL, authorName, authorImage, likes, views } = req.body;

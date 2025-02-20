@@ -30,7 +30,7 @@ export function Myblogs() {
         <Card className="w-full overflow-y-auto h-full bg-white bg-opacity-65">
             <List>
                 {blogs.map((blog) => (
-                    <ListItem key={blog.id} className="justify-between">
+                    <ListItem key={blog.id} className="justify-between bg-gray-100">
                         <div className="w-1/3">
                             <Typography variant="h5" color="blue-gray" className="font-verdana font-bold">
                                {blog.heading}

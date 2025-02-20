@@ -75,6 +75,9 @@ const Blogs = () => {
         authorImage = {selectedBlog.authorImage ? selectedBlog.authorImage :  person.imageURL}
         like = {selectedBlog.likes ? selectedBlog.likes : 0}
         views = {selectedBlog.views ? selectedBlog.views : 0}
+        authorMail = {selectedBlog
+          ? selectedBlog.mail
+          : mail}
         />
         </div>
       )}

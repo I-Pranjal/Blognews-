@@ -77,7 +77,7 @@ const BlogForm = () => {
 
   return (
     <div className="h-auto w-full flex items-center justify-center">
-      <form onSubmit={handleSubmit} className="h-auto w-full m-20 grid grid-cols-2 gap-3">
+      <form onSubmit={handleSubmit} className="h-auto w-full m-20 grid grid-cols-1 md:grid-cols-2 gap-3">
         <div className="w-full h-80 bg-gray-200 rounded-lg">
           <textarea
             className="w-full h-80 px-10 py-4 text-lg font-thin border border-red-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -86,7 +86,7 @@ const BlogForm = () => {
             onChange={(e) => setContent(e.target.value)}
           ></textarea>
         </div>
-        <div className="w-full h-80 bg-gray-200 rounded-lg flex p-10 flex-col items-end gap-6">
+        <div className="w-full h-80 bg-gray-200 rounded-lg flex md:p-10 flex-col items-end gap-6">
           <Input
             size="md"
             label="Title"
@@ -101,13 +101,13 @@ const BlogForm = () => {
             label="Upload Image"
           />
           <div className="w-full grid grid-cols-2 gap-4">
-            <Button type="button" className="mx-8" onClick={() => {
+            <Button type="button" className="md:mx-8" onClick={() => {
               setHeading('');
               setContent('');
               setImageURL('');
               setImgUpload(null);
             }}>Reset</Button>
-            <Button type="submit" className="mx-8">Submit</Button>
+            <Button type="submit" className="md:mx-8">Submit</Button>
           </div>
         </div>
       </form>
