@@ -10,7 +10,7 @@ const Footer = () => {
   const sendMail = async (e) => {
     e.preventDefault();
     try{
-      const response = await fetch('${BASE_URL}/api/sendMail', {
+      const response = await fetch(`${BASE_URL}/api/sendMail`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -5,11 +5,14 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import { OAuth2Client } from 'google-auth-library';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
 import nodemailer from 'nodemailer';
 import confMail  from './confMail.js';
 import { comment } from 'postcss';
 dotenv.config();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Connect to MongoDB
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/blogs';

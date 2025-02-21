@@ -34,7 +34,7 @@ const ReadSection = ({title, author, date, content, imageURL, authorImage, like,
     const sendnotification = async () => {
         // Send post request to /api/notification to save like notification
         try {
-          const response = await fetch("${BASE_URL}/api/notifications", {
+          const response = await fetch(`${BASE_URL}/api/notifications`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -55,7 +55,7 @@ const ReadSection = ({title, author, date, content, imageURL, authorImage, like,
         // Send post request to /api/comments to save comment
         if(com === "") {alert("Comment cannot be empty") ; return;}
         try {
-          const response = await fetch("${BASE_URL}/api/addComment", {
+          const response = await fetch(`${BASE_URL}/api/addComment`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -95,7 +95,7 @@ const ReadSection = ({title, author, date, content, imageURL, authorImage, like,
         const notifyComment = async () => {
           // Send post request to /api/notification to save comment notification
           try {
-            const response = await fetch("${BASE_URL}/api/notifications/comment", {
+            const response = await fetch(`${BASE_URL}/api/notifications/comment`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({

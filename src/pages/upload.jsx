@@ -30,7 +30,7 @@ const BlogForm = () => {
 
           try {
             const likes = 0, views = 0 ;
-            const response = await fetch('${BASE_URL}/api/blogs', {
+            const response = await fetch(`${BASE_URL}/api/blogs`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const BlogForm = () => {
     } else {
       // Handle case where no image is uploaded
       try {
-        const response = await fetch('${BASE_URL}/api/blogs', {
+        const response = await fetch(`${BASE_URL}/api/blogs`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -22,7 +22,7 @@ import GoogleSignInButton from "./GoogleSignInButton.jsx";
       const handleSubmit = async (e) => {
         e.preventDefault() ;
         try{
-            const response = await fetch('${BASE_URL}/api/signin' , {
+            const response = await fetch(`${BASE_URL}/api/signin` , {
               method : 'POST', 
               headers : {
                 'Content-type' : 'application/json',
