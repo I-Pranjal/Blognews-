@@ -17,7 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "dotnet": "^1.1.4",
-    "express": "^4.19.2",
+    "express": "^4.21.2",
     "firebase": "^10.12.3",
     "firebase-admin": "^12.2.0",
     "google-auth-library": "^9.15.1",

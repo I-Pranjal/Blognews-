@@ -19,6 +19,7 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // Define Blog schema and model
 const blogSchema = new mongoose.Schema({
@@ -76,7 +77,7 @@ app.get('/api/notifications', async (req, res) => {
     const { email } = req.query;
     try {
         const notifications = await Notification.find({ mail: email }).sort({ date: -1 });
-        console.log(notifications) ; 
+        // console.log(notifications) ; 
         // Return first five notifications only
         res.json(notifications.slice(0, 5));
     } catch (error) {
@@ -213,7 +214,7 @@ const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || 'none'; // Replace with your C
 const client = new OAuth2Client(CLIENT_ID);
 app.post('/api/auth/google', async (req, res) => {
   const { token } = req.body;
-  console.log(token); 
+//   console.log(token); 
 
 
   if (!token) {
@@ -254,7 +255,7 @@ const userMail = process.env.senderMail ;
 const userPassword = process.env.senderPassword ;
 // Route to send mail
 app.post('/api/sendMail', async (req, res) => {
-    console.log("UserMail :" , userMail , "and User Password : " , userPassword) ; 
+    // console.log("UserMail :" , userMail , "and User Password : " , userPassword) ; 
     const { mail } = req.body;
     if (!mail) {
         return res.status(400).json({ message: 'Email is required' });
@@ -312,11 +313,15 @@ app.get('/api/getComments', async (req, res) => {
     }
 });
 
-
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 // Start the server
 app.listen(5000, () => {
     console.log('Server is running on port 5000');
 });
+
+
 
 export default app;
