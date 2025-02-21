@@ -10,7 +10,7 @@ function GoogleSignInButton() {
 
   const onSuccess = async (response) => {
     try {
-      const googleUser = await fetch('${BASE_URL}/api/auth/google', {  // Your backend endpoint
+      const googleUser = await fetch(`${BASE_URL}/api/auth/google`, {  // Your backend endpoint
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
