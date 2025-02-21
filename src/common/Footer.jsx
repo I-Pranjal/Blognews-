@@ -1,10 +1,29 @@
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { useState , React } from "react";
 
 
 const Footer = () => {
 
-  const sendMail = () => {
-    console.log("Mail sent");
+  const [mail, setMail] = useState("");
+
+
+  const sendMail = async (e) => {
+    e.preventDefault();
+    try{
+      const response = await fetch('http://localhost:5000/api/sendMail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({mail}),
+      });
+
+      const data = await response.json();
+      alert(data.message);
+    }
+    catch{
+      alert("Error in sending mail");
+    }
   }
 
   return (
@@ -29,11 +48,13 @@ const Footer = () => {
           <div className="flex items-center justify-center md:justify-start gap-2">
             <input
               type="email"
+              value={mail}
+              onChange={(e) => setMail(e.target.value)}
               placeholder="Enter your email"
               className="w-full px-4 py-2 rounded-md text-gray-900 focus:ring-2 focus:ring-blue-500 outline-none"
             />
             <button 
-            onClick={sendMail()}
+            onClick={sendMail}
             className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md text-white transition duration-300">
               Subscribe
             </button>

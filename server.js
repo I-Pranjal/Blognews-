@@ -4,12 +4,16 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import { OAuth2Client } from 'google-auth-library';
 import dotenv from 'dotenv';
+import nodemailer from 'nodemailer';
+import confMail  from './confMail.js';
+import { comment } from 'postcss';
 dotenv.config();
+
 
 // Connect to MongoDB
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/blogs';
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('MongoDB connected', mongoURI))
+    .then(() => console.log('MongoDB connected'))
     .catch(err => console.error('MongoDB connection error:', err));
 
 const app = express();
@@ -46,12 +50,24 @@ const categorySchema = new mongoose.Schema({
 });
 const Category = mongoose.model('Category', categorySchema);
 
+// Define a category schema for comments 
+const commentSchema = new mongoose.Schema({
+    blogTitle: { type: String, required: true },
+    time : { type: Date, default: Date.now },
+    authorMail : { type: String, required: true },
+    comment : { type: String, required: true },
+    comName : { type: String, required: true },
+    comImgURL : { type: String, required: true }
+});
+const Comment = mongoose.model('Comment', commentSchema);
+
 // Define notification schema and model, it contains image of person who liked the blog, name of the person who liked the blog, date and time of the like and email address of person whose article was liked
 const notificationSchema = new mongoose.Schema({
     lbImgURL : { type: String, required: true },    // URL of the image of the person who liked the blog
     lbName: { type: String, required: true },      // Name of the person who liked the blog
     date: { type: Date, default: Date.now },
-    mail: { type: String, required: true }  // Email address of the person whose article was liked
+    mail: { type: String, required: true }, // Email address of the person whose article was liked
+    nType : { type: String, required: true , default:'like' } // Type of notification
 });
 const Notification = mongoose.model('Notification', notificationSchema);
 
@@ -59,7 +75,7 @@ const Notification = mongoose.model('Notification', notificationSchema);
 app.get('/api/notifications', async (req, res) => {
     const { email } = req.query;
     try {
-        const notifications = await Notification.find({ mail: email });
+        const notifications = await Notification.find({ mail: email }).sort({ date: -1 });
         console.log(notifications) ; 
         // Return first five notifications only
         res.json(notifications.slice(0, 5));
@@ -68,7 +84,7 @@ app.get('/api/notifications', async (req, res) => {
     }
 });
 
-// Route to add a new notification
+// Route to add a new notification (like)
 app.post('/api/notifications', async (req, res) => {
     const { lbImgURL, lbName, mail } = req.body;
     try {
@@ -79,6 +95,18 @@ app.post('/api/notifications', async (req, res) => {
         res.status(500).json({ error: 'Failed to add notification' });
     }
 });
+
+// Route to add a notification (comment)
+app.post('/api/notifications/comment', async (req, res) => {
+    const { lbImgURL, lbName, mail } = req.body;
+    try {
+        const newNotification = new Notification({ lbImgURL, lbName, mail, nType : 'comment' });
+        await newNotification.save();
+        res.json({success: true});
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to add notification' });
+    }
+}); 
 
 
 // Route to add a new blog
@@ -128,8 +156,6 @@ app.post('/api/signin', async (req, res) => {
 app.get('/api/blogs', async (req, res) => {
     // const { email } = req.query;
     try {
-        // const query = email ? { mail: email } : {};
-        // const blogs = await Blog.find(query);
         const blogs = await Blog.find({});
         res.json(blogs);
     } catch (error) {
@@ -222,6 +248,71 @@ app.post('/api/auth/google', async (req, res) => {
     return res.status(400).json({ success: false, message: 'Invalid token' });
   }
 });
+
+
+const userMail = process.env.senderMail ; 
+const userPassword = process.env.senderPassword ;
+// Route to send mail
+app.post('/api/sendMail', async (req, res) => {
+    console.log("UserMail :" , userMail , "and User Password : " , userPassword) ; 
+    const { mail } = req.body;
+    if (!mail) {
+        return res.status(400).json({ message: 'Email is required' });
+    }
+
+    try {
+        // Create a transporter object using SMTP transport
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                // user : 'debatingliterary@gmail.com', 
+                // pass : 'blqtthulfddxjqme'
+                user: userMail,
+                pass: userPassword // Use App Password if 2FA is enabled
+            }
+        });
+
+        // Email options
+        const mailOptions = {
+            from: '"Magnews Subscription" <your-email@gmail.com>',
+            to: mail,
+            subject: 'Subscription Confirmation',
+            html: confMail
+                };
+
+        // Send email
+        await transporter.sendMail(mailOptions);
+        res.status(200).json({ message: 'Subscribed successfully !!' });
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).json({ message: 'Failed to send email' });
+    }
+});
+
+// Post request to add a comment
+app.post('/api/addComment', async (req, res) => {
+    const { blogTitle, authorMail , comment, comName, comImgURL } = req.body;
+    try {
+        const newComment = new Comment({ blogTitle, authorMail , comment , comName, comImgURL });
+        await newComment.save();
+        res.json(newComment);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to add comment' });
+    }
+});
+
+// Get request to get all comments of a blog by title and authorMail
+app.get('/api/getComments', async (req, res) => {
+    const { blogTitle, authorMail } = req.query;
+    try {
+        const comments = await Comment.find({ blogTitle, authorMail });
+        res.json(comments);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to get comments' });
+    }
+});
+
+
 
 // Start the server
 app.listen(5000, () => {

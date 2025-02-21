@@ -52,29 +52,29 @@ const Likes = () =>  {
               } else {
                 timeAgo = `${Math.floor(timeDiff / 86400000)} days ago`;
               }
-              return (
+                return (
                 <div class="flex items-center justify-between pb-3 pt-3 last:pb-0" key={notification.id}>
                   <div class="flex items-center gap-x-3">
-                    <img
-                      src={notification.lbImgURL}
-                      alt="Tania Andrew"
-                      class="relative inline-block h-9 w-9 rounded-full object-cover object-center"
-                    />
-                    <div>
-                      <h6
-                        class="block font-sans text-base font-semibold leading-relaxed tracking-normal text-blue-gray-900 antialiased"
-                      >
-                        {notification.lbName} liked your article
-                      </h6>
-                      <p
-                        class="block font-sans text-sm font-light leading-normal text-gray-700 antialiased"
-                      >
-                        {timeAgo}
-                      </p>
-                    </div>
+                  <img
+                    src={notification.lbImgURL}
+                    alt="Tania Andrew"
+                    class="relative inline-block h-9 w-9 rounded-full object-cover object-center"
+                  />
+                  <div>
+                    <h6
+                    class="block font-sans text-base font-semibold leading-relaxed tracking-normal text-blue-gray-900 antialiased"
+                    >
+                    {notification.nType === "comment" ? `${notification.lbName} commented on your article` : `${notification.lbName} liked your article`}
+                    </h6>
+                    <p
+                    class="block font-sans text-sm font-light leading-normal text-gray-700 antialiased"
+                    >
+                    {timeAgo}
+                    </p>
+                  </div>
                   </div>
                 </div>
-              );
+                );
             })}
           </div>
         </div>
