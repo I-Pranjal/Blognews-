@@ -17,6 +17,7 @@ const BlogForm = () => {
   const [imageURL, setImageURL] = useState('');
   const mail = person?.email || "anonymous";
   const [imgUpload, setImgUpload] = useState(null);
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +30,7 @@ const BlogForm = () => {
 
           try {
             const likes = 0, views = 0 ;
-            const response = await fetch('http://localhost:5000/api/blogs', {
+            const response = await fetch('${BASE_URL}/api/blogs', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -53,7 +54,7 @@ const BlogForm = () => {
     } else {
       // Handle case where no image is uploaded
       try {
-        const response = await fetch('http://localhost:5000/api/blogs', {
+        const response = await fetch('${BASE_URL}/api/blogs', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

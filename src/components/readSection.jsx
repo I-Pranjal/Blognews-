@@ -7,13 +7,15 @@ const ReadSection = ({title, author, date, content, imageURL, authorImage, like,
     const [likes, setLikes] = useState(like);
     const [liked, setLiked] = useState(false);
     const {person} = useContext(MyContext);
+    const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
   
     const handleLikeToggle = async () => {
         try {
           if(!liked){
              await sendnotification();  // Send notification only if the blog is liked
           }
-        const response = await fetch(`http://localhost:5000/blogs/${title}/like`, {
+        const response = await fetch(`${BASE_URL}/blogs/${title}/like`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ liked: !liked }), // Toggle like status
@@ -32,7 +34,7 @@ const ReadSection = ({title, author, date, content, imageURL, authorImage, like,
     const sendnotification = async () => {
         // Send post request to /api/notification to save like notification
         try {
-          const response = await fetch("http://localhost:5000/api/notifications", {
+          const response = await fetch("${BASE_URL}/api/notifications", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -53,7 +55,7 @@ const ReadSection = ({title, author, date, content, imageURL, authorImage, like,
         // Send post request to /api/comments to save comment
         if(com === "") {alert("Comment cannot be empty") ; return;}
         try {
-          const response = await fetch("http://localhost:5000/api/addComment", {
+          const response = await fetch("${BASE_URL}/api/addComment", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -78,7 +80,7 @@ const ReadSection = ({title, author, date, content, imageURL, authorImage, like,
           // Get comments for the blog
           const getComments = async () => {
             try {
-          const response = await fetch(`http://localhost:5000/api/getComments?blogTitle=${title}&authorMail=${authorMail}`);
+          const response = await fetch(`${BASE_URL}/api/getComments?blogTitle=${title}&authorMail=${authorMail}`);
               if (!response.ok) throw new Error("Failed to fetch comments");
               const data = await response.json();
               setComments(data);
@@ -93,7 +95,7 @@ const ReadSection = ({title, author, date, content, imageURL, authorImage, like,
         const notifyComment = async () => {
           // Send post request to /api/notification to save comment notification
           try {
-            const response = await fetch("http://localhost:5000/api/notifications/comment", {
+            const response = await fetch("${BASE_URL}/api/notifications/comment", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({

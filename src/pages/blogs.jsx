@@ -8,12 +8,14 @@ const Blogs = () => {
   const [selectedBlog, setSelectedBlog] = useState(null);
   const { person } = useContext(MyContext);
   const mail = person?.email || "anonymous"; 
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        // const response = await fetch(`http://localhost:5000/api/blogs?email=${mail}`);
-        const response = await fetch(`http://localhost:5000/api/blogs`);
+        // const response = await fetch(`${BASE_URL}/api/blogs?email=${mail}`);
+        const response = await fetch(`${BASE_URL}/api/blogs`);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -29,7 +31,7 @@ const Blogs = () => {
 
   const increaseView = async (blog) => {
     try {
-      const response = await fetch(`http://localhost:5000/blogs/${blog.heading}/view`, {
+      const response = await fetch(`${BASE_URL}/blogs/${blog.heading}/view`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,16 +1,19 @@
 import {React, useContext, useState, useEffect} from 'react'
 import {MyContext} from '../myprovider'
 
+
 const Likes = () =>  {
   const {person} = useContext(MyContext);
   const [notifications, setNotifications] = useState([]);
   const email = person?.email || "anonymous"
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 
   useEffect(() => {
     const getNotifications = async () => {
       try {
         console.log(email);
-        const response = await fetch(`http://localhost:5000/api/notifications?email=${email}`);
+        const response = await fetch(`${BASE_URL}/api/notifications?email=${email}`);
         const data = await response.json();
         setNotifications(data);
         console.log(data);
@@ -19,8 +22,7 @@ const Likes = () =>  {
       }
     };
     getNotifications();
-  }, [email
-  ]);
+  }, [email]);
   
   return (
     <>

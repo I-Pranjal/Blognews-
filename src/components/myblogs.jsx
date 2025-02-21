@@ -7,11 +7,12 @@ export function Myblogs() {
     const {person} = useContext(MyContext);
     const [blogs, setBlogs] = useState([]);
     const mail = person?.email || "anonymous";
+    const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
     useEffect(() => {
         const fetchBlogs = async () => {
           try {
-         const response = await fetch(`http://localhost:5000/api/myblogs?email=${mail}`);
+         const response = await fetch(`${BASE_URL}/api/myblogs?email=${mail}`);
             if (!response.ok) {
               throw new Error("Network response was not ok");
             }

@@ -5,10 +5,12 @@ const clientId = '817643488404-kitr3mdv05aesvn1kjg8qnd7giinbjab.apps.googleuserc
 
 function GoogleSignInButton() {
   const [user, setUser] = useState(null);
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 
   const onSuccess = async (response) => {
     try {
-      const googleUser = await fetch('http://localhost:5000/api/auth/google', {  // Your backend endpoint
+      const googleUser = await fetch('${BASE_URL}/api/auth/google', {  // Your backend endpoint
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

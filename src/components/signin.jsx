@@ -16,11 +16,13 @@ import GoogleSignInButton from "./GoogleSignInButton.jsx";
       const [email , setEmail ] = useState("");
       const [password,  setPassword ] = useState(""); 
       const {person ,  change } = useContext(MyContext);
+      const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
       const navigate = useNavigate() ;
       const handleSubmit = async (e) => {
         e.preventDefault() ;
         try{
-            const response = await fetch('http://localhost:5000/api/signin' , {
+            const response = await fetch('${BASE_URL}/api/signin' , {
               method : 'POST', 
               headers : {
                 'Content-type' : 'application/json',
