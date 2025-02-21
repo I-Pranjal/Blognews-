@@ -4,7 +4,7 @@ import Likes from '../components/likes'
 
 const Dashboard = () => {
   return (
-    <div className='grid md:grid-cols-3 gap-3 bg-blue-100 p-5'>
+    <div className='grid md:grid-cols-3 gap-3 bg-gray-200 p-5'>
       <div className='col-span-2 bg-blue-200 rounded-xl'>
 
       </div>
