@@ -15,7 +15,7 @@ const ReadSection = ({title, author, date, content, imageURL, authorImage, like,
           if(!liked){
              await sendnotification();  // Send notification only if the blog is liked
           }
-        const response = await fetch(`${BASE_URL}/blogs/${title}/like`, {
+        const response = await fetch(`${BASE_URL}/api/blogs/${title}/like`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ liked: !liked }), // Toggle like status
@@ -63,7 +63,7 @@ const ReadSection = ({title, author, date, content, imageURL, authorImage, like,
               authorMail : authorMail ,
               comment : com,
               comName : person.name, 
-              comImgURL : person.imageURL
+              comImgURL : person.imageURL || "https://www.gravatar.com/avatar/"
               }),
           });
             if (!response.ok) throw new Error("Failed to send notification");   
@@ -100,7 +100,7 @@ const ReadSection = ({title, author, date, content, imageURL, authorImage, like,
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 // send these details in the body lbImgURL, lbName, mail 
-                  lbImgURL : person.imageURL, 
+                  lbImgURL : person.imageURL || "https://www.gravatar.com/avatar/", 
                   lbName : person.name,
                   mail : authorMail}),
             });
@@ -170,7 +170,7 @@ return (
     <div className='w-full md:w-[55%] mt-6'>
       <h1 className='text-2xl mb-4'>Comments</h1>
       <div className='flex items-center mb-4'>
-        <img src={person.imageURL} alt='User Avatar' className='w-12 h-12 rounded-full mr-4' />
+        <img src={person.imageURL || "https://www.gravatar.com/avatar"} alt='User Avatar' className='w-12 h-12 rounded-full mr-4' />
         <input type='text'
         value={com}
         onChange={(e) => setCom(e.target.value)}

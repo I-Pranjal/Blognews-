@@ -12,7 +12,7 @@ export function Myblogs() {
     useEffect(() => {
         const fetchBlogs = async () => {
           try {
-         const response = await fetch(`${BASE_URL}/api/myblogs?email=${mail}`);
+         const response = await fetch(`${BASE_URL}/api/blogs/myblogs?email=${mail}`);
             if (!response.ok) {
               throw new Error("Network response was not ok");
             }

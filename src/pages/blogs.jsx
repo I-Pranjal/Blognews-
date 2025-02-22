@@ -31,7 +31,7 @@ const Blogs = () => {
 
   const increaseView = async (blog) => {
     try {
-      const response = await fetch(`${BASE_URL}/blogs/${blog.heading}/view`, {
+      const response = await fetch(`${BASE_URL}/api/blogs/${blog.heading}/view`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
