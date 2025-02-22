@@ -12,11 +12,9 @@ const Likes = () =>  {
   useEffect(() => {
     const getNotifications = async () => {
       try {
-        console.log(email);
         const response = await fetch(`${BASE_URL}/api/notifications?email=${email}`);
         const data = await response.json();
         setNotifications(data);
-        console.log(data);
       } catch (error) {
         console.error('Failed to get notifications', error);
       }
