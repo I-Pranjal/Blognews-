@@ -24,6 +24,7 @@ import {
 
 const Archieve = () => {
   const [stat, setStat] = useState([]); 
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   useEffect(() => {
     getstats();
@@ -31,7 +32,7 @@ const Archieve = () => {
 
   const getstats = async () => {
     try{
-      const response = await fetch('http://localhost:5000/api/stats')
+      const response = await fetch(`${BASE_URL}/api/stats`) ;
       const data = await response.json();
       setStat(data);
       console.log(data);
