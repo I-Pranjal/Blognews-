@@ -92,9 +92,19 @@ const BlogForm = () => {
     }
   };
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   return (
     <div className="h-auto w-full flex items-center justify-center bg-gray-100 py-10 px-5">
-      <form onSubmit={handleSubmit} className="h-auto w-full max-w-2xl bg-white shadow-md rounded-lg p-8">
+      <form
+        onSubmit={(e) => {
+          if (!isSubmitting) {
+            setIsSubmitting(true);
+            handleSubmit(e).finally(() => setIsSubmitting(false));
+          }
+        }}
+        className="h-auto w-full max-w-2xl bg-white shadow-md rounded-lg p-8"
+      >
         <h2 className="text-2xl font-semibold mb-6 text-gray-800">Create a New Blog</h2>
         <div className="mb-4">
           <Input
@@ -130,20 +140,39 @@ const BlogForm = () => {
               <img src={preview} alt="Preview" className="max-h-48 mx-auto rounded" />
             ) : (
               <div className="flex flex-col items-center space-y-2 text-gray-500">
+                <img
+                src='https://cdn-icons-png.flaticon.com/512/9261/9261196.png'
+                width={50}
+                className='opacity-25'
+                height={50}
+                />
                 <span>Click to upload image</span>
               </div>
             )}
           </div>
         </div>
         <div className="w-full flex justify-end gap-3">
-          <Button type="button" onClick={() => {
-            setHeading('');
-            setContent('');
-            setImageURL('');
-            setImgUpload(null);
-            setPreview(null);
-          }} className="bg-gray-700 hover:bg-red-600 text-white">Reset</Button>
-          <Button type="submit" className="bg-green-400 hover:bg-green-600 text-white">Submit</Button>
+          <Button
+            type="button"
+            onClick={() => {
+              setHeading('');
+              setContent('');
+              setImageURL('');
+              setImgUpload(null);
+              setPreview(null);
+              setIsSubmitting(false);
+            }}
+            className="bg-gray-700 hover:bg-red-600 text-white"
+          >
+            Reset
+          </Button>
+          <Button
+            type="submit"
+            className="bg-green-400 hover:bg-green-600 text-white"
+            disabled={isSubmitting}
+          >
+            Submit
+          </Button>
         </div>
       </form>
     </div>
