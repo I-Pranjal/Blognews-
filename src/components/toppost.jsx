@@ -1,184 +1,163 @@
 import {
-    Tabs,
-    TabsHeader,
-    TabsBody,
-    Tab,
-    TabPanel,
-  } from "@material-tailwind/react";
+  Tabs,
+  TabsHeader,
+  TabsBody,
+  Tab,
+  TabPanel,
+} from "@material-tailwind/react";
 import { toppost_content } from "../assets/data";
 import Postcard from "./postcard";
-import { useEffect , useState } from "react";
-
+import { useEffect, useState } from "react";
 
 const Toppost = () => {
+  const [Allnews, setAllNews] = useState([]);
+  const [Sports, setSports] = useState([]);
+  const [Entertainment, setEntertainment] = useState([]);
+  const [Technology, setTechnology] = useState([]);
+  const [Business, setBusiness] = useState([]);
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
-  const [Allnews , setAllNews ] = useState([]);
-  const [Sports , setSports ] = useState([]);
-  const [Entertainment , setEntertainment ] = useState([]);
-  const [Technology , setTechnology ] = useState([]);
-  const [Business , setBusiness ] = useState([]);
-  
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        // Fetch All News
+        const allResponse = await fetch(`${BASE_URL}/api/homeallnews`);
+        const allData = await allResponse.json();
+        console.log(allData); 
+        setAllNews(allData.articles);
 
-  useEffect( () => {
-    //  Defining the fetchnews function : 
-        const fetchnews = async () => {
-          try{
-                const response = await fetch('https://newsapi.org/v2/top-headlines?country=us&apiKey=331e844264f040ebb02be43ba4a9ddd7')
-                const data = await response.json() ;
-                setAllNews(data.articles)
-          }
-          catch(error){
-            console.error("Error fetching the news : ", error ); 
-          }
-        }; 
+        // Fetch Sports News
+        const sportsResponse = await fetch(`${BASE_URL}/api/homesportsnews`);
+        const sportsData = await sportsResponse.json();
+        setSports(sportsData.articles);
 
-        fetchnews(); 
+        // Fetch Entertainment News
+        const entertainmentResponse = await fetch(`${BASE_URL}/api/homeentertainmentnews`);
+        const entertainmentData = await entertainmentResponse.json();
+        setEntertainment(entertainmentData.articles);
 
-  } , [] ); 
+        // Fetch Technology News
+        const technologyResponse = await fetch(`${BASE_URL}/api/hometechnologynews`);
+        const technologyData = await technologyResponse.json();
+        setTechnology(technologyData.articles);
 
-  useEffect( () => {
-    //  Defining the fetchnews function : 
-        const fetchnews = async () => {
-          try{
-                const response = await fetch('https://newsapi.org/v2/top-headlines?category=sports&country=us&apiKey=331e844264f040ebb02be43ba4a9ddd7')
-                const Sportsdata = await response.json() ;
-                setSports(Sportsdata.articles)
-          }
-          catch(error){
-            console.error("Error fetching the news : ", error ); 
-          }
-        }; 
+        // Fetch Business News
+        const businessResponse = await fetch(`${BASE_URL}/api/homebusinessnews`);
+        const businessData = await businessResponse.json();
+        console.log(businessData);
+        setBusiness(businessData.articles);
+      } catch (error) {
+        console.error("Error fetching news:", error);
+      }
+    };
 
-        fetchnews(); 
-
-  } , [] ); 
-
-  useEffect( () => {
-    //  Defining the fetchnews function : 
-        const fetchnews = async () => {
-          try{
-                const response = await fetch('https://newsapi.org/v2/top-headlines?category=entertainment&country=us&apiKey=331e844264f040ebb02be43ba4a9ddd7')
-                const data = await response.json() ;
-                setEntertainment(data.articles)
-          }
-          catch(error){
-            console.error("Error fetching the news : ", error ); 
-          }
-        }; 
-
-        fetchnews(); 
-
-  } , [] ); 
-
-  useEffect( () => {
-    //  Defining the fetchnews function : 
-        const fetchnews = async () => {
-          try{
-                const response = await fetch('https://newsapi.org/v2/top-headlines?category=technology&country=us&apiKey=331e844264f040ebb02be43ba4a9ddd7')
-                const Sportsdata = await response.json() ;
-                setTechnology(Sportsdata.articles)
-          }
-          catch(error){
-            console.error("Error fetching the news : ", error ); 
-          }
-        }; 
-
-        fetchnews(); 
-
-  } , [] ); 
-
-  useEffect( () => {
-    //  Defining the fetchnews function : 
-        const fetchnews = async () => {
-          try{
-                const response = await fetch('https://newsapi.org/v2/top-headlines?category=business&country=us&apiKey=331e844264f040ebb02be43ba4a9ddd7')
-                const Sportsdata = await response.json() ;
-                setBusiness(Sportsdata.articles)
-          }
-          catch(error){
-            console.error("Error fetching the news : ", error ); 
-          }
-        }; 
-
-        fetchnews(); 
-
-  } , [] );
-
-
+    fetchNews();
+  }, []);
 
   return (
     <>
-    <Tabs id="custom-animation" value="html" className="mt-2  ">
-      <TabsHeader className="bg-gray-200">
-        {toppost_content.map(({ label, value }) => (
-          <Tab key={value} value={value} >
-            {label}
-          </Tab>
-        ))}
-      </TabsHeader>
+      <Tabs id="custom-animation" value="html" className="mt-2">
+        <TabsHeader className="bg-gray-200">
+          {toppost_content.map(({ label, value }) => (
+            <Tab key={value} value={value}>
+              {label}
+            </Tab>
+          ))}
+        </TabsHeader>
 
-
-      <TabsBody
-        animate={{
+        <TabsBody
+          animate={{
             initial: { y: 250 },
             mount: { y: 0 },
             unmount: { y: 250 },
-        }}
-      >
-
-        {toppost_content.map(({ value, label }) => (
-            <TabPanel key={value} value={value}  label = {label}className="bg-gray-200 h-auto grid md:grid-cols-4 grid-cols-1 gap-3 overflow-auto">
-            { label === 'All' ? (
+          }}
+        >
+          {toppost_content.map(({ value, label }) => (
+            <TabPanel
+              key={value}
+              value={value}
+              label={label}
+              className="bg-gray-200 h-auto grid md:grid-cols-4 grid-cols-1 gap-3 overflow-auto"
+            >
+              {label === "All" ? (
                 Allnews.length ? (
                   Allnews.map((article, index) => (
-                    <Postcard heading={article.title} content={article.description} imageURL = {article.urlToImage} newsURL={article.url}/>
+                    <Postcard
+                      key={index}
+                      heading={article.title}
+                      content={article.description}
+                      imageURL={article.urlToImage}
+                      newsURL={article.url}
+                    />
                   ))
                 ) : (
                   <p>Loading news...</p>
                 )
-            ) : label === 'Sports' ? Sports.length ? (
-              Sports.map((article, index) => (
-                <Postcard heading={article.title} content={article.description} imageURL = {article.urlToImage} newsURL={article.url}/>
-              ))
-            ) : (
-              <p>Loading news...</p>
-            ) : label === 'Technology' ? Technology.length ? (
-              Technology.map((article, index) => (
-                <Postcard heading={article.title} content={article.description} imageURL = {article.urlToImage} newsURL={article.url}/>
-              ))
-            ) : (
-              <p>Loading news...</p>
-            ) : label === 'Entertainment' ? Entertainment.length ? (
-              Entertainment.map((article, index) => (
-                <Postcard heading={article.title} content={article.description} imageURL = {article.urlToImage} newsURL={article.url}/>
-              ))
-            ) : (
-              <p>Loading news...</p>
-            ): label === 'Business' ? Business.length ? (
-              Business.map((article, index) => (
-                <Postcard heading={article.title} content={article.description} imageURL = {article.urlToImage} newsURL={article.url}/>
-              ))
-            ) : (
-              <p>Loading news...</p>
-            ) : <p>  No news available </p>
-
-          }
-          </TabPanel>
-        ))}
-
-      </TabsBody>
-    </Tabs>
-
-    {/* *************************   THE END ********************************** */}
-
-
+              ) : label === "Sports" ? (
+                Sports.length ? (
+                  Sports.map((article, index) => (
+                    <Postcard
+                      key={index}
+                      heading={article.title}
+                      content={article.description}
+                      imageURL={article.urlToImage}
+                      newsURL={article.url}
+                    />
+                  ))
+                ) : (
+                  <p>Loading news...</p>
+                )
+              ) : label === "Technology" ? (
+                Technology.length ? (
+                  Technology.map((article, index) => (
+                    <Postcard
+                      key={index}
+                      heading={article.title}
+                      content={article.description}
+                      imageURL={article.urlToImage}
+                      newsURL={article.url}
+                    />
+                  ))
+                ) : (
+                  <p>Loading news...</p>
+                )
+              ) : label === "Entertainment" ? (
+                Entertainment.length ? (
+                  Entertainment.map((article, index) => (
+                    <Postcard
+                      key={index}
+                      heading={article.title}
+                      content={article.description}
+                      imageURL={article.urlToImage}
+                      newsURL={article.url}
+                    />
+                  ))
+                ) : (
+                  <p>Loading news...</p>
+                )
+              ) : label === "Business" ? (
+                Business.length ? (
+                  Business.map((article, index) => (
+                    <Postcard
+                      key={index}
+                      heading={article.title}
+                      content={article.description}
+                      imageURL={article.urlToImage}
+                      newsURL={article.url}
+                    />
+                  ))
+                ) : (
+                  <p>Loading news...</p>
+                )
+              ) : (
+                <p>No news available</p>
+              )}
+            </TabPanel>
+          ))}
+        </TabsBody>
+      </Tabs>
     </>
-  )
+  );
+};
 
-
-     
-
-
-}
-
-export default Toppost
+export default Toppost;
