@@ -12,7 +12,7 @@ import { MyProvider } from './myprovider';
 import Dashboard from './pages/dashboard';
 import Archieve from './pages/archieve';
 import Profile from './pages/profile';
-
+import LatestPosts from './pages/latestPosts';
 
 
 function App() {
@@ -35,6 +35,7 @@ function App() {
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/archieve' element={<Archieve />} />
             <Route path='/profile' element={<Profile />} />
+            <Route path='/latestposts' element={<LatestPosts />} />
           </Routes>
         <Footer />
     </Router>

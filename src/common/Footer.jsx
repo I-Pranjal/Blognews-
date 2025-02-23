@@ -1,5 +1,6 @@
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import { useState , React } from "react";
+import { Link } from "react-router-dom";
 
 
 const Footer = () => {
@@ -66,13 +67,13 @@ const Footer = () => {
           <h1 className="text-3xl font-bold mb-4">Feed</h1>
           <ul className="text-gray-300 text-sm">
             <li className="mb-2 hover:text-white transition duration-200">
-              <a href="#">Latest Posts</a>
+              <Link to="/latestposts">Latest Posts</Link>
             </li>
             <li className="mb-2 hover:text-white transition duration-200">
-              <a href="#">Popular Posts</a>
+            <Link to="/latestposts">Popular Posts</Link>
             </li>
             <li className="mb-2 hover:text-white transition duration-200">
-              <a href="#">Trending Topics</a>
+            <Link to="/latestposts">Trending Topics</Link>
             </li>
           </ul>
         </div>

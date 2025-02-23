@@ -25,8 +25,8 @@ const Profile_drawer = () => {
   useEffect(() => {
     const userInfo = localStorage.getItem('user');
     if (userInfo) {
-      const person = JSON.parse(userInfo);
-      change({name: person.name, email: person.email, imageURL : person.picture});
+      const user = JSON.parse(userInfo);
+      change({name: user.name, email: user.email, imageURL : user.picture});
     }
   }, []);
  

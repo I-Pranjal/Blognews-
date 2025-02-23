@@ -127,7 +127,7 @@ const Toppost = () => {
       >
 
         {toppost_content.map(({ value, label }) => (
-            <TabPanel key={value} value={value}  label = {label}className="bg-gray-200 h-auto grid grid-cols-4 gap-3 overflow-auto">
+            <TabPanel key={value} value={value}  label = {label}className="bg-gray-200 h-auto grid md:grid-cols-4 grid-cols-1 gap-3 overflow-auto">
             { label === 'All' ? (
                 Allnews.length ? (
                   Allnews.map((article, index) => (
