@@ -2,13 +2,11 @@ import React, {useState,  useEffect } from 'react'
 
 export default function LatestPosts() {
     const [posts, setPosts] = useState([]);
-    const url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=858043bd50e64b938b421764116abca7' ;
+    // const url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=858043bd50e64b938b421764116abca7' ;
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await fetch(url, {
-                    method: 'GET',
-                });
+                const response = await fetch('https://newsapi.org/v2/top-headlines?country=us&apiKey=331e844264f040ebb02be43ba4a9ddd7') ;
                 
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -26,7 +24,7 @@ export default function LatestPosts() {
         };
     
         fetchPosts();
-    }, [url]); // Dependency array added
+    }, []); // Dependency array added
     
 return (
     <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px', backgroundColor: '#f4f4f9' }}>
