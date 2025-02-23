@@ -3,11 +3,10 @@ import NotFoundPage from './NotFoundPage'
 
 
 const Archieve = () => {
- 
   return (
-    <div className='min-h-96 p-6 bg-gray-100 flex flex-col items-center'>
+    <div className='min-h-screen p-6 bg-gray-100 flex flex-col items-center'>
      <NotFoundPage />
-    </div>
+         </div>
   );
 }
 
