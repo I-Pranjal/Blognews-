@@ -76,40 +76,74 @@ const BlogForm = () => {
     }
   };
 
+  const [preview, setPreview] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImgUpload(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setPreview(null);
+    }
+  };
+
   return (
-    <div className="h-auto w-full flex items-center justify-center">
-      <form onSubmit={handleSubmit} className="h-auto w-full m-20 grid grid-cols-1 md:grid-cols-2 gap-3">
-        <div className="w-full h-80 bg-gray-200 rounded-lg">
-          <textarea
-            className="w-full h-80 px-10 py-4 text-lg font-thin border border-red-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Write your content here"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          ></textarea>
-        </div>
-        <div className="w-full h-80 bg-gray-200 rounded-lg flex md:p-10 flex-col items-end gap-6">
+    <div className="h-auto w-full flex items-center justify-center bg-gray-100 py-10 px-5">
+      <form onSubmit={handleSubmit} className="h-auto w-full max-w-2xl bg-white shadow-md rounded-lg p-8">
+        <h2 className="text-2xl font-semibold mb-6 text-gray-800">Create a New Blog</h2>
+        <div className="mb-4">
           <Input
             size="md"
             label="Title"
             required
             value={heading}
             onChange={(e) => setHeading(e.target.value)}
+            className="mb-4"
           />
-          <Input
+        </div>
+        <div className="mb-4">
+          <textarea
+            className="w-full h-40 px-4 py-2 text-lg font-thin border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Write your content here"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          ></textarea>
+        </div>
+        <div className="mb-4">
+          <input
             type="file"
-            required accept="image/*"
-            onChange={(e) => setImgUpload(e.target.files[0])}
-            label="Upload Image"
+            id="image"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="hidden"
           />
-          <div className="w-full grid grid-cols-2 gap-4">
-            <Button type="button" className="md:mx-8" onClick={() => {
-              setHeading('');
-              setContent('');
-              setImageURL('');
-              setImgUpload(null);
-            }}>Reset</Button>
-            <Button type="submit" className="md:mx-8">Submit</Button>
+          <div 
+            onClick={() => document.getElementById('image').click()}
+            className="cursor-pointer border-2 border-dashed rounded-lg p-4 text-center hover:border-emerald-500 transition-colors"
+          >
+            {preview ? (
+              <img src={preview} alt="Preview" className="max-h-48 mx-auto rounded" />
+            ) : (
+              <div className="flex flex-col items-center space-y-2 text-gray-500">
+                <span>Click to upload image</span>
+              </div>
+            )}
           </div>
+        </div>
+        <div className="w-full flex justify-end gap-3">
+          <Button type="button" onClick={() => {
+            setHeading('');
+            setContent('');
+            setImageURL('');
+            setImgUpload(null);
+            setPreview(null);
+          }} className="bg-gray-700 hover:bg-red-600 text-white">Reset</Button>
+          <Button type="submit" className="bg-green-400 hover:bg-green-600 text-white">Submit</Button>
         </div>
       </form>
     </div>
