@@ -8,51 +8,52 @@ import {
 import { toppost_content } from "../assets/data";
 import Postcard from "./postcard";
 import { useEffect, useState } from "react";
+import { allNEWS, sportsNEWS, businessNEWS, techNEWS, entertainmentNEWS } from "../assets/staticData";
 
 const Toppost = () => {
-  const [Allnews, setAllNews] = useState([]);
-  const [Sports, setSports] = useState([]);
-  const [Entertainment, setEntertainment] = useState([]);
-  const [Technology, setTechnology] = useState([]);
-  const [Business, setBusiness] = useState([]);
+  const [Allnews, setAllNews] = useState(allNEWS.articles);
+  const [Sports, setSports] = useState(sportsNEWS.articles);
+  const [Entertainment, setEntertainment] = useState(entertainmentNEWS.articles);
+  const [Technology, setTechnology] = useState(techNEWS.articles);
+  const [Business, setBusiness] = useState(businessNEWS.articles);
   const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
-  useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        // Fetch All News
-        const allResponse = await fetch(`${BASE_URL}/api/homeallnews`);
-        const allData = await allResponse.json();
-        console.log(allData); 
-        setAllNews(allData.articles);
+  // useEffect(() => {
+  //   const fetchNews = async () => {
+  //     try {
+  //       // Fetch All News
+  //       const allResponse = await fetch(`${BASE_URL}/api/homeallnews`);
+  //       const allData = await allResponse.json();
+  //       console.log(allData); 
+  //       setAllNews(allData.articles);
 
-        // Fetch Sports News
-        const sportsResponse = await fetch(`${BASE_URL}/api/homesportsnews`);
-        const sportsData = await sportsResponse.json();
-        setSports(sportsData.articles);
+  //       // Fetch Sports News
+  //       const sportsResponse = await fetch(`${BASE_URL}/api/homesportsnews`);
+  //       const sportsData = await sportsResponse.json();
+  //       setSports(sportsData.articles);
 
-        // Fetch Entertainment News
-        const entertainmentResponse = await fetch(`${BASE_URL}/api/homeentertainmentnews`);
-        const entertainmentData = await entertainmentResponse.json();
-        setEntertainment(entertainmentData.articles);
+  //       // Fetch Entertainment News
+  //       const entertainmentResponse = await fetch(`${BASE_URL}/api/homeentertainmentnews`);
+  //       const entertainmentData = await entertainmentResponse.json();
+  //       setEntertainment(entertainmentData.articles);
 
-        // Fetch Technology News
-        const technologyResponse = await fetch(`${BASE_URL}/api/hometechnologynews`);
-        const technologyData = await technologyResponse.json();
-        setTechnology(technologyData.articles);
+  //       // Fetch Technology News
+  //       const technologyResponse = await fetch(`${BASE_URL}/api/hometechnologynews`);
+  //       const technologyData = await technologyResponse.json();
+  //       setTechnology(technologyData.articles);
 
-        // Fetch Business News
-        const businessResponse = await fetch(`${BASE_URL}/api/homebusinessnews`);
-        const businessData = await businessResponse.json();
-        console.log(businessData);
-        setBusiness(businessData.articles);
-      } catch (error) {
-        console.error("Error fetching news:", error);
-      }
-    };
+  //       // Fetch Business News
+  //       const businessResponse = await fetch(`${BASE_URL}/api/homebusinessnews`);
+  //       const businessData = await businessResponse.json();
+  //       console.log(businessData);
+  //       setBusiness(businessData.articles);
+  //     } catch (error) {
+  //       console.error("Error fetching news:", error);
+  //     }
+  //   };
 
-    fetchNews();
-  }, []);
+  //   fetchNews();
+  // }, []);
 
   return (
     <>

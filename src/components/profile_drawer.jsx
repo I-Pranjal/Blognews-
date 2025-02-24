@@ -34,7 +34,7 @@ const Profile_drawer = () => {
     <React.Fragment>
       <Badge placement="top-end" overlap="circular" color="green" withBorder>
         <Avatar
-          src={person?.imageURL || '../images/original_pranjal.jpg'}
+          src={person?.imageURL || '../images/original_pranjal.png'}
           alt="avatar"
           onClick={openDrawer}
         />

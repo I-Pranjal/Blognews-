@@ -35,8 +35,8 @@ import {
       <Card className="w-full max-w-[26rem] shadow-2xl m-5 bg-blue-gray-900 text-white">
         <CardHeader floated={false} color="blue-gray">
           <img
-            src="/images/chris evans_.jpeg"
-            // src="/images/pranjal_imge.jpg"
+            src="/images/chris evans_.png"
+            // src="/images/pranjal_imge.png"
             alt="Profile Image"
           />
           <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60" />

@@ -7,17 +7,17 @@ export const  navbar  = [
     {
           id : 2,
           path : "/archieve", 
-          nav :  "Archieve"
+          nav :  "Daily bits"
     },
-    {
-          id : 3,
-          path : "/category",
-          nav :  "Category"
-    },
+//     {
+//           id : 3,
+//           path : "/category",
+//           nav :  "Category"
+//     },
     {
           id : 4,
           path : "/blogs",
-          nav :  "My blogs"
+          nav :  "All blogs"
     },
     {
           id : 5,
